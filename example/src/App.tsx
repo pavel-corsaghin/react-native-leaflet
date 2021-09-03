@@ -1,31 +1,34 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import Leaflet from 'react-native-leaflet';
+import { StyleSheet, SafeAreaView } from 'react-native';
+import { LatLng, LeafletView } from 'react-native-leaflet';
+
+const DEFAULT_COORDINATE: LatLng = {
+  lat: 37.78825,
+  lng: -122.4324,
+};
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    Leaflet.multiply(3, 7).then(setResult);
-  }, []);
-
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
-    </View>
+    <SafeAreaView style={styles.root}>
+      <LeafletView
+        mapMarkers={[
+          {
+            position: DEFAULT_COORDINATE,
+            icon: '📍',
+            size: [32, 32],
+          },
+        ]}
+        mapCenterPosition={DEFAULT_COORDINATE}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+    alignItems: 'center',
   },
 });

@@ -1,9 +1,3 @@
-import { NativeModules } from 'react-native';
+export { default as LeafletView, LeafletViewProps } from './LeafletView';
 
-type LeafletType = {
-  multiply(a: number, b: number): Promise<number>;
-};
-
-const { Leaflet } = NativeModules;
-
-export default Leaflet as LeafletType;
+export * from './LeafletView/types';
