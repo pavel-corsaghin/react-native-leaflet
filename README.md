@@ -6,8 +6,16 @@ Notes: This project is replacement for https://github.com/reggie3/react-native-w
 
 ## Installation
 
+Install using npm or yarn like this:
+
 ```sh
-npm install react-native-leaflet
+npm install --save react-native-webview-leaflet
+```
+
+or
+
+```sh
+yarn add react-native-leaflet
 ```
 
 ## Usage
@@ -30,7 +38,6 @@ const DEFAULT_COORDINATE: LatLng = {
 
 | property            | required | type                            | purpose                                                                                                                                                                                                         |
 | ------------------- | -------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-                                                                                                                                |
 | loadingIndicator    | optional | React.ReactElement              | custom component displayed while the map is loading                                                                                                                                                             |
 | onError             | optional | function                        | Will receive an error event                                                                                                                                                                                     |
 | onLoadEnd           | optional | function                        | Called when map stops loading                                                                                                                                                                                   |
