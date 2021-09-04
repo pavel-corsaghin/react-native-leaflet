@@ -8,9 +8,8 @@ Notes: This project is replacement for https://github.com/reggie3/react-native-w
 [![npm](https://img.shields.io/npm/dm/react-native-leaflet-view.svg)](https://www.npmjs.com/package/react-native-leaflet-view)
 [![npm](https://img.shields.io/npm/dt/react-native-leaflet-view.svg)](https://www.npmjs.com/package/react-native-leaflet-view)
 
-                 Android                     |                 iOS
-:-------------------------------------------:|:--------------------------------------:
-<img src="images/android.png" height="200">  |<img src="images/ios.png" height="200">
+<img src="images/android.png" height="600">       <img src="images/ios.png" height="600">
+
 ## Installation
 
 Install using npm or yarn like this:
