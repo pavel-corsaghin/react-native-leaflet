@@ -2,31 +2,26 @@
 
 A LeafletView component using WebView and Leaflet map for React Native applications
 
-Notes: This project is replacement for https://github.com/reggie3/react-native-webview-leaflet, which is no longer maintain by author
+Notes: This project is replacement for https://github.com/reggie3/react-native-webview-leaflet, which no longer maintain by author and work only with expo
 
 ## Installation
 
 Install using npm or yarn like this:
 
 ```sh
-npm install --save react-native-webview-leaflet
+npm install --save react-native-webview-leaflet-view
 ```
 
 or
 
 ```sh
-yarn add react-native-leaflet
+yarn add react-native-leaflet-view
 ```
 
 ## Usage
 
 ```js
 import { LatLng, LeafletView } from 'react-native-leaflet';
-
-const DEFAULT_COORDINATE: LatLng = {
-  lat: 37.78825,
-  lng: -122.4324,
-};
 
 <LeafletView
     // The rest of your props, see the list below
@@ -49,6 +44,7 @@ const DEFAULT_COORDINATE: LatLng = {
 | mapCenterPosition   | optional | {lat: [Lat], lng: [Lng]} object | The center position of the map. This coordinate will not be accurate if the map has been moved manually. However, calling the map's setMapCenterPosition function will cause the map to revert to this location |
 | ownPositionMarker   | optional | Marker                          | A special marker that has an ID of OWN_POSTION_MARKER_ID                                                                                                                                                        |  |
 | zoom                | optional | number                          | Desired zoom value of the map                                                                                                                                                                                   |
+| doDebug             | optional | boolean                         | A flag for debug message logging                                                                                                                                                                               |
 
 ## Contributing
 

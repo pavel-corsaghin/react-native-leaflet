@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { WebView } from 'react-native-webview';
 import {
   MapMarker,
@@ -19,7 +19,7 @@ import {
 import LoadingIndicator from '../LoadingIndicator';
 
 const LEAFLET_HTML_SOURCE = Platform.select({
-  ios: require('../../../android/app/src/main/assets/leaflet.html'),
+  ios: require('../../android/src/main/assets/leaflet.html'),
   android: { uri: 'file:///android_asset/leaflet.html' },
 });
 
@@ -47,6 +47,7 @@ export type LeafletViewProps = {
   mapCenterPosition?: LatLng;
   ownPositionMarker?: OwnPositionMarker;
   zoom?: number;
+  doDebug?: boolean;
 };
 
 const LeafletView: React.FC<LeafletViewProps> = ({
@@ -61,67 +62,32 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   mapCenterPosition,
   ownPositionMarker,
   zoom,
+  doDebug,
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
 
-  //Handle mapLayers update
-  useEffect(() => {
-    if (!initialized) {
-      return;
-    }
-    sendMessage({ mapLayers });
-  }, [initialized, mapLayers]);
+  const logMessage = useCallback(
+    (message: string) => {
+      if (doDebug) {
+        console.log(message);
+      }
+    },
+    [doDebug]
+  );
 
-  //Handle mapMarkers update
-  useEffect(() => {
-    if (!initialized) {
-      return;
-    }
-    sendMessage({ mapMarkers });
-  }, [initialized, mapMarkers]);
+  const sendMessage = useCallback(
+    (payload: MapMessage) => {
+      logMessage(`sending: ${JSON.stringify(payload)}`);
 
-  //Handle mapShapes update
-  useEffect(() => {
-    if (!initialized) {
-      return;
-    }
-    sendMessage({ mapShapes });
-  }, [initialized, mapShapes]);
+      webViewRef.current?.injectJavaScript(
+        `window.postMessage(${JSON.stringify(payload)}, '*');`
+      );
+    },
+    [logMessage]
+  );
 
-  //Handle ownPositionMarker update
-  useEffect(() => {
-    if (!initialized || !ownPositionMarker) {
-      return;
-    }
-    sendMessage({ ownPositionMarker });
-  }, [initialized, ownPositionMarker]);
-
-  //Handle mapCenterPosition update
-  useEffect(() => {
-    if (!initialized) {
-      return;
-    }
-    sendMessage({ mapCenterPosition });
-  }, [initialized, mapCenterPosition]);
-
-  //Handle zoom update
-  useEffect(() => {
-    if (!initialized) {
-      return;
-    }
-    sendMessage({ zoom });
-  }, [initialized, zoom]);
-
-  const sendMessage = (payload: MapMessage) => {
-    console.log(`sending: ${JSON.stringify(payload)}`);
-
-    webViewRef.current?.injectJavaScript(
-      `window.postMessage(${JSON.stringify(payload)}, '*');`
-    );
-  };
-
-  const sendInitialMessage = () => {
+  const sendInitialMessage = useCallback(() => {
     let startupMessage: MapMessage = {};
 
     if (mapLayers) {
@@ -146,29 +112,89 @@ const LeafletView: React.FC<LeafletViewProps> = ({
 
     sendMessage(startupMessage);
     setInitialized(true);
-    console.log('sending startup message');
-  };
+    logMessage('sending initial message');
+  }, [
+    logMessage,
+    mapCenterPosition,
+    mapLayers,
+    mapMarkers,
+    mapShapes,
+    ownPositionMarker,
+    sendMessage,
+    zoom,
+  ]);
 
-  const handleMessage = (event: WebViewMessageEvent) => {
-    const data = event?.nativeEvent?.data;
-    if (!data) {
+  const handleMessage = useCallback(
+    (event: WebViewMessageEvent) => {
+      const data = event?.nativeEvent?.data;
+      if (!data) {
+        return;
+      }
+
+      const message: WebviewLeafletMessage = JSON.parse(data);
+      logMessage(`received: ${JSON.stringify(message)}`);
+
+      if (message.msg === WebViewLeafletEvents.MAP_READY) {
+        sendInitialMessage();
+      }
+      if (message.event === WebViewLeafletEvents.ON_MOVE_END) {
+        logMessage(
+          `moved to: ${JSON.stringify(message.payload?.mapCenterPosition)}`
+        );
+      }
+
+      onMessageReceived && onMessageReceived(message);
+    },
+    [logMessage, onMessageReceived, sendInitialMessage]
+  );
+
+  //Handle mapLayers update
+  useEffect(() => {
+    if (!initialized) {
       return;
     }
+    sendMessage({ mapLayers });
+  }, [initialized, mapLayers, sendMessage]);
 
-    const message: WebviewLeafletMessage = JSON.parse(data);
-    console.log(`received: ${JSON.stringify(message)}`);
-
-    if (message.msg === WebViewLeafletEvents.MAP_READY) {
-      sendInitialMessage();
+  //Handle mapMarkers update
+  useEffect(() => {
+    if (!initialized) {
+      return;
     }
-    if (message.event === WebViewLeafletEvents.ON_MOVE_END) {
-      console.log(
-        `moved to: ${JSON.stringify(message.payload?.mapCenterPosition)}`
-      );
-    }
+    sendMessage({ mapMarkers });
+  }, [initialized, mapMarkers, sendMessage]);
 
-    onMessageReceived && onMessageReceived(message);
-  };
+  //Handle mapShapes update
+  useEffect(() => {
+    if (!initialized) {
+      return;
+    }
+    sendMessage({ mapShapes });
+  }, [initialized, mapShapes, sendMessage]);
+
+  //Handle ownPositionMarker update
+  useEffect(() => {
+    if (!initialized || !ownPositionMarker) {
+      return;
+    }
+    sendMessage({ ownPositionMarker });
+  }, [initialized, ownPositionMarker, sendMessage]);
+
+  //Handle mapCenterPosition update
+  useEffect(() => {
+    if (!initialized) {
+      return;
+    }
+    sendMessage({ mapCenterPosition });
+  }, [initialized, mapCenterPosition, sendMessage]);
+
+  //Handle zoom update
+  useEffect(() => {
+    if (!initialized) {
+      return;
+    }
+    sendMessage({ zoom });
+  }, [initialized, zoom, sendMessage]);
 
   return (
     <View style={styles.container}>
@@ -197,6 +223,7 @@ LeafletView.defaultProps = {
   renderLoading: () => <LoadingIndicator />,
   mapLayers: DEFAULT_MAP_LAYERS,
   zoom: DEFAULT_ZOOM,
+  doDebug: __DEV__,
 };
 
 const styles = StyleSheet.create({
