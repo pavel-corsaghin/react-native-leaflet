@@ -2,8 +2,15 @@
 
 A LeafletView component using WebView and Leaflet map for React Native applications
 
-Notes: This project is replacement for https://github.com/reggie3/react-native-webview-leaflet, which no longer maintain by author and work only with expo
+Notes: This project is replacement for https://github.com/reggie3/react-native-webview-leaflet, which no longer maintain by author and work only with expo.
 
+[![npm](https://img.shields.io/npm/v/react-native-leaflet-view.svg)](https://www.npmjs.com/package/react-native-leaflet-view)
+[![npm](https://img.shields.io/npm/dm/react-native-leaflet-view.svg)](https://www.npmjs.com/package/react-native-leaflet-view)
+[![npm](https://img.shields.io/npm/dt/react-native-leaflet-view.svg)](https://www.npmjs.com/package/react-native-leaflet-view)
+
+                 Android                     |                 iOS
+:-------------------------------------------:|:--------------------------------------:
+<img src="images/android.png" height="200">  |<img src="images/ios.png" height="200">
 ## Installation
 
 Install using npm or yarn like this:
