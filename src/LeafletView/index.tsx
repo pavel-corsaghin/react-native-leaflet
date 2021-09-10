@@ -48,6 +48,7 @@ export type LeafletViewProps = {
   ownPositionMarker?: OwnPositionMarker;
   zoom?: number;
   doDebug?: boolean;
+  androidHardwareAccelerationDisabled?: boolean;
 };
 
 const LeafletView: React.FC<LeafletViewProps> = ({
@@ -63,6 +64,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   ownPositionMarker,
   zoom,
   doDebug,
+  androidHardwareAccelerationDisabled,
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
@@ -213,6 +215,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
       allowFileAccess={true}
       allowUniversalAccessFromFileURLs={true}
       allowFileAccessFromFileURLs={true}
+      androidHardwareAccelerationDisabled={androidHardwareAccelerationDisabled}
     />
   );
 };
