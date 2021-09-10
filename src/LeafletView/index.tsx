@@ -11,7 +11,7 @@ import {
   OWN_POSTION_MARKER_ID,
 } from './types';
 import { LatLng } from 'react-leaflet';
-import { NativeSyntheticEvent, Platform, StyleSheet, View } from 'react-native';
+import { NativeSyntheticEvent, Platform, StyleSheet } from 'react-native';
 import {
   WebViewError,
   WebViewMessageEvent,
@@ -197,25 +197,23 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   }, [initialized, zoom, sendMessage]);
 
   return (
-    <View style={styles.container}>
-      <WebView
-        containerStyle={styles.webview}
-        ref={webViewRef}
-        javaScriptEnabled={true}
-        onLoadEnd={onLoadEnd}
-        onLoadStart={onLoadStart}
-        onMessage={handleMessage}
-        domStorageEnabled={true}
-        startInLoadingState={true}
-        onError={onError}
-        originWhitelist={['*']}
-        renderLoading={renderLoading}
-        source={LEAFLET_HTML_SOURCE}
-        allowFileAccess={true}
-        allowUniversalAccessFromFileURLs={true}
-        allowFileAccessFromFileURLs={true}
-      />
-    </View>
+    <WebView
+      containerStyle={styles.container}
+      ref={webViewRef}
+      javaScriptEnabled={true}
+      onLoadEnd={onLoadEnd}
+      onLoadStart={onLoadStart}
+      onMessage={handleMessage}
+      domStorageEnabled={true}
+      startInLoadingState={true}
+      onError={onError}
+      originWhitelist={['*']}
+      renderLoading={renderLoading}
+      source={LEAFLET_HTML_SOURCE}
+      allowFileAccess={true}
+      allowUniversalAccessFromFileURLs={true}
+      allowFileAccessFromFileURLs={true}
+    />
   );
 };
 
@@ -230,9 +228,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     ...StyleSheet.absoluteFillObject,
-  },
-  webview: {
-    flex: 1,
   },
 });
 
