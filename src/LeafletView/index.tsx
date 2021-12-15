@@ -26,7 +26,7 @@ const LEAFLET_HTML_SOURCE = Platform.select({
 const DEFAULT_MAP_LAYERS = [
   {
     attribution:
-      '&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     baseLayerIsChecked: true,
     baseLayerName: 'OpenStreetMap.Mapnik',
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
