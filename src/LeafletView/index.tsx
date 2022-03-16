@@ -179,7 +179,10 @@ const LeafletView: React.FC<LeafletViewProps> = ({
     if (!initialized || !ownPositionMarker) {
       return;
     }
-    sendMessage({ ownPositionMarker });
+    sendMessage({
+	  ...ownPositionMarker,
+	  id: OWN_POSTION_MARKER_ID
+	});
   }, [initialized, ownPositionMarker, sendMessage]);
 
   //Handle mapCenterPosition update
