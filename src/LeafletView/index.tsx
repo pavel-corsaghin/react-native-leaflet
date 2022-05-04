@@ -49,6 +49,7 @@ export type LeafletViewProps = {
   zoom?: number;
   doDebug?: boolean;
   androidHardwareAccelerationDisabled?: boolean;
+  injectedJavaScript?: string;
 };
 
 const LeafletView: React.FC<LeafletViewProps> = ({
@@ -65,6 +66,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   zoom,
   doDebug,
   androidHardwareAccelerationDisabled,
+  injectedJavaScript
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
@@ -219,6 +221,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
       allowUniversalAccessFromFileURLs={true}
       allowFileAccessFromFileURLs={true}
       androidHardwareAccelerationDisabled={androidHardwareAccelerationDisabled}
+      injectedJavaScript={injectedJavaScript}
     />
   );
 };
