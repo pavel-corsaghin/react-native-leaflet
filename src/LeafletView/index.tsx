@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { WebView } from 'react-native-webview';
+import { WebView, WebViewProps } from 'react-native-webview';
 import {
   MapMarker,
   WebviewLeafletMessage,
@@ -49,6 +49,7 @@ export type LeafletViewProps = {
   zoom?: number;
   doDebug?: boolean;
   androidHardwareAccelerationDisabled?: boolean;
+  webviewStyle?: WebViewProps;
 };
 
 const LeafletView: React.FC<LeafletViewProps> = ({
@@ -65,6 +66,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   zoom,
   doDebug,
   androidHardwareAccelerationDisabled,
+  webviewStyle,
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
@@ -180,9 +182,8 @@ const LeafletView: React.FC<LeafletViewProps> = ({
       return;
     }
     sendMessage({
-	  ...ownPositionMarker,
-	  id: OWN_POSTION_MARKER_ID
-	});
+      ownPositionMarker: { ...ownPositionMarker, id: OWN_POSTION_MARKER_ID },
+    });
   }, [initialized, ownPositionMarker, sendMessage]);
 
   //Handle mapCenterPosition update
@@ -219,6 +220,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
       allowUniversalAccessFromFileURLs={true}
       allowFileAccessFromFileURLs={true}
       androidHardwareAccelerationDisabled={androidHardwareAccelerationDisabled}
+      style={webviewStyle}
     />
   );
 };
