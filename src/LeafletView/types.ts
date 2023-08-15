@@ -119,6 +119,7 @@ export interface MapMessage {
   mapCenterPosition?: LatLng;
   ownPositionMarker?: OwnPositionMarker;
   zoom?: number;
+  id?: string;
 }
 
 export interface WebviewLeafletMessagePayload {
