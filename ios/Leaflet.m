@@ -6,4 +6,11 @@ RCT_EXTERN_METHOD(multiply:(float)a withB:(float)b
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
+// Implement requiresMainQueueSetup to return YES
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
 @end
+
