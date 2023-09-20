@@ -134,16 +134,16 @@ const LeafletView: React.FC<LeafletViewProps> = ({
       }
 
       const message: WebviewLeafletMessage = JSON.parse(data);
-      logMessage(`received: ${JSON.stringify(message)}`);
+      // logMessage(`received: ${JSON.stringify(message)}`);
 
       if (message.msg === WebViewLeafletEvents.MAP_READY) {
         sendInitialMessage();
       }
-      if (message.event === WebViewLeafletEvents.ON_MOVE_END) {
-        logMessage(
-          `moved to: ${JSON.stringify(message.payload?.mapCenterPosition)}`
-        );
-      }
+      // if (message.event === WebViewLeafletEvents.ON_MOVE_END) {
+      //   logMessage(
+      //     `moved to: ${JSON.stringify(message.payload?.mapCenterPosition)}`
+      //   );
+      // }
 
       onMessageReceived && onMessageReceived(message);
     },
