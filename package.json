@@ -1,6 +1,6 @@
 {
-  "name": "react-native-leaflet-view",
-  "version": "0.1.2",
+  "name": "react-native-leaflet-custom-view",
+  "version": "1.0.0",
   "description": "A LeafletView component using WebView and Leaflet map for React Native applications",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
