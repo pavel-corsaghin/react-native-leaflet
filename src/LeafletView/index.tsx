@@ -52,18 +52,18 @@ export type LeafletViewProps = {
 };
 
 const LeafletView: React.FC<LeafletViewProps> = ({
-  renderLoading,
+  renderLoading = (() => <LoadingIndicator />),
   onError,
   onLoadEnd,
   onLoadStart,
   onMessageReceived,
-  mapLayers,
+  mapLayers = DEFAULT_MAP_LAYERS,
   mapMarkers,
   mapShapes,
   mapCenterPosition,
   ownPositionMarker,
-  zoom,
-  doDebug,
+  zoom = DEFAULT_ZOOM,
+  doDebug = __DEV__,
   androidHardwareAccelerationDisabled,
 }) => {
   const webViewRef = useRef<WebView>(null);
@@ -221,13 +221,6 @@ const LeafletView: React.FC<LeafletViewProps> = ({
       androidHardwareAccelerationDisabled={androidHardwareAccelerationDisabled}
     />
   );
-};
-
-LeafletView.defaultProps = {
-  renderLoading: () => <LoadingIndicator />,
-  mapLayers: DEFAULT_MAP_LAYERS,
-  zoom: DEFAULT_ZOOM,
-  doDebug: __DEV__,
 };
 
 const styles = StyleSheet.create({
