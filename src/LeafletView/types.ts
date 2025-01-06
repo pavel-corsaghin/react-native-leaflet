@@ -142,4 +142,5 @@ export interface OwnPositionMarker {
   icon: string;
   position: LatLng;
   size: Point;
+  title: string;
 }
