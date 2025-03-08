@@ -12,7 +12,7 @@ Notes: This project is replacement for https://github.com/reggie3/react-native-w
 
 ## Pre-configuration
 
-Before installing `react-native-leaflet-view`, you need to install `[react-native-webview](https://github.com/react-native-webview/react-native-webview)`, which is a core dependency for this package to work. You can install it using yarn or npm:
+Before installing `react-native-leaflet-view`, you need to install [react-native-webview](https://github.com/react-native-webview/react-native-webview), which is a core dependency for this package to work. You can install it using yarn or npm:
 
 ```sh
 npm install --save react-native-webview
