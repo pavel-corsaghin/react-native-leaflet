@@ -17,10 +17,15 @@ import {
   WebViewMessageEvent,
 } from 'react-native-webview/lib/WebViewTypes';
 import LoadingIndicator from '../LoadingIndicator';
+import {dependencies} from '../../../../package.json';
+
+const isExpo = !!dependencies?.expo;
+
+const LEAFLET_HTML_PATH = require('../../android/src/main/assets/leaflet.html');
 
 const LEAFLET_HTML_SOURCE = Platform.select({
-  ios: require('../../android/src/main/assets/leaflet.html'),
-  android: { uri: 'file:///android_asset/leaflet.html' },
+  ios: LEAFLET_HTML_PATH,
+  android: isExpo ? LEAFLET_HTML_PATH : { uri: 'file:///android_asset/leaflet.html' },
 });
 
 const DEFAULT_MAP_LAYERS = [
