@@ -17,7 +17,7 @@ import {
   WebViewMessageEvent,
 } from 'react-native-webview/lib/WebViewTypes';
 import LoadingIndicator from '../LoadingIndicator';
-import {dependencies} from '../../../../package.json';
+const { dependencies } = require('../../../../package.json');
 
 const isExpo = !!dependencies?.expo;
 
