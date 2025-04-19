@@ -55,7 +55,7 @@ export type LeafletViewProps = {
 };
 
 const LeafletView: React.FC<LeafletViewProps> = ({
-  renderLoading = (() => <LoadingIndicator />),
+  renderLoading = () => <LoadingIndicator />,
   onError,
   onLoadEnd,
   onLoadStart,
