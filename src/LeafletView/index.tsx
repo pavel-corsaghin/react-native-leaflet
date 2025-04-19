@@ -51,6 +51,7 @@ export type LeafletViewProps = {
   androidHardwareAccelerationDisabled?: boolean;
   webviewStyle?: WebViewProps;
   injectedJavaScript?: string;
+  source?: WebViewProps['source'];
 };
 
 const LeafletView: React.FC<LeafletViewProps> = ({
@@ -68,7 +69,8 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   doDebug = __DEV__,
   androidHardwareAccelerationDisabled,
   webviewStyle,
-  injectedJavaScript
+  injectedJavaScript,
+  source
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
@@ -217,7 +219,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
       onError={onError}
       originWhitelist={['*']}
       renderLoading={renderLoading}
-      source={LEAFLET_HTML_SOURCE}
+      source={source || LEAFLET_HTML_SOURCE}
       allowFileAccess={true}
       allowUniversalAccessFromFileURLs={true}
       allowFileAccessFromFileURLs={true}
