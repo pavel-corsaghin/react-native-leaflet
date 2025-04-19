@@ -54,7 +54,7 @@ export type LeafletViewProps = {
 };
 
 const LeafletView: React.FC<LeafletViewProps> = ({
-  renderLoading = (() => <LoadingIndicator />),
+  renderLoading = () => <LoadingIndicator />,
   onError,
   onLoadEnd,
   onLoadStart,
@@ -68,7 +68,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   doDebug = __DEV__,
   androidHardwareAccelerationDisabled,
   webviewStyle,
-  injectedJavaScript
+  injectedJavaScript,
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
