@@ -24,14 +24,125 @@ or
 yarn add react-native-leaflet-view
 ```
 
-## Usage
+## react-native configuration 
+
+Before installing `react-native-leaflet-view`, you need to install [react-native-webview](https://github.com/react-native-webview/react-native-webview), which is a core dependency for this package to work. You can install it using yarn or npm:
+
+```sh
+npm install --save react-native-webview
+```
+
+or
+
+```sh
+yarn add react-native-webview
+```
+
+## Expo configuration
+
+For Expo projects, you'll need to add additional dependencies:
+
+### Step one
+
+```sh
+expo install react-native-webview expo-asset expo-file-system
+```
+
+These packages are required for proper file handling and WebView functionality in Expo:
+- [react-native-webview docs](https://docs.expo.dev/versions/latest/sdk/webview/)
+- [expo-asset docs](https://docs.expo.dev/versions/latest/sdk/asset/)
+- [expo-file-system docs](https://docs.expo.dev/versions/latest/sdk/filesystem/)
+
+### Step two
+
+Copy the required HTML file from the package with this one-liner:
+
+```sh
+cp node_modules/react-native-leaflet-view/android/src/main/assets/leaflet.html assets
+```
+
+## Usage with react-native-cli
 
 ```js
+import React from 'react';
+import { LeafletView } from 'react-native-leaflet-view';
+
+const DEFAULT_LOCATION = {
+  latitude: -23.5489,
+  longitude: -46.6388
+}
+const App: React.FC = () => {
+
+  return (
+    <LeafletView
+      mapCenterPosition={{
+        lat: DEFAULT_LOCATION.latitude,
+        lng: DEFAULT_LOCATION.longitude,
+      }}
+    />
+  );
+}
+
+export default App;
+```
+
+## Usage with Expo
+
+```js
+
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert } from 'react-native';
+import { Asset } from "expo-asset";
+import * as FileSystem from "expo-file-system";
 import { LatLng, LeafletView } from 'react-native-leaflet-view';
 
-<LeafletView
-    // The rest of your props, see the list below
-/>
+const DEFAULT_LOCATION = {
+  latitude: -23.5489,
+  longitude: -46.6388
+}
+const App: React.FC = () => {
+  const [webViewContent, setWebViewContent] = useState<string | null>(null);
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadHtml = async () => {
+      try {
+        const path = require("./assets/leaflet.html");
+        const asset = Asset.fromModule(path);
+        await asset.downloadAsync();
+        const htmlContent = await FileSystem.readAsStringAsync(asset.localUri!);
+
+        if (isMounted) {
+          setWebViewContent(htmlContent);
+        }
+      } catch (error) {
+        Alert.alert('Error loading HTML', JSON.stringify(error));
+        console.error('Error loading HTML:', error);
+      }
+    };
+
+    loadHtml();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (!webViewContent) {
+    return <ActivityIndicator size="large" />
+  }
+  return (
+    <LeafletView
+      source={{ html: webViewContent }}
+      mapCenterPosition={{
+        lat: DEFAULT_LOCATION.latitude,
+        lng: DEFAULT_LOCATION.longitude,
+      }}
+    />
+  );
+}
+
+export default App;
 
 ```
 
@@ -48,9 +159,10 @@ import { LatLng, LeafletView } from 'react-native-leaflet-view';
 | mapMarkers          | optional | MapMarker array                 | An array of map markers                                                                                                                                                                                         |
 | mapShapes           | optional | MapShape[]                      | An array of map shapes                                                                                                                                                                                          |
 | mapCenterPosition   | optional | {lat: [Lat], lng: [Lng]} object | The center position of the map. This coordinate will not be accurate if the map has been moved manually. However, calling the map's setMapCenterPosition function will cause the map to revert to this location |
-| ownPositionMarker   | optional | Marker                          | A special marker that has an ID of OWN_POSTION_MARKER_ID                                                                                                                                                        |  |
+| ownPositionMarker   | optional | Marker                          | A special marker that has an ID of OWN_POSTION_MARKER_ID                                                                                                                                                        |
 | zoom                | optional | number                          | Desired zoom value of the map                                                                                                                                                                                   |
 | doDebug             | optional | boolean                         | A flag for debug message logging                                                                                                                                                                               |
+| source              | optional | WebView["source"]               |  Loads static html or a uri (with optional headers) in the WebView.                                                                                                                                                           |
 
 ## Contributing
 
