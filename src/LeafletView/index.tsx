@@ -70,7 +70,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   androidHardwareAccelerationDisabled,
   webviewStyle,
   injectedJavaScript,
-  source
+  source,
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
