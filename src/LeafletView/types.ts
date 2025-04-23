@@ -100,6 +100,8 @@ export interface MapLayer {
   subLayer?: string;
   url?: string;
   zIndex?: number;
+  minZoom?: number;
+  maxZoom?: number;
 }
 
 export interface MapShape {
