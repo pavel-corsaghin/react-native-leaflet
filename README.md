@@ -38,11 +38,11 @@ or
 yarn add react-native-webview
 ```
 
-### Expo configuration
+## Expo configuration
 
 For Expo projects, you'll need to add additional dependencies:
 
-## Step one
+### Step one
 
 ```sh
 expo install react-native-webview expo-asset expo-file-system
@@ -159,9 +159,10 @@ export default App;
 | mapMarkers          | optional | MapMarker array                 | An array of map markers                                                                                                                                                                                         |
 | mapShapes           | optional | MapShape[]                      | An array of map shapes                                                                                                                                                                                          |
 | mapCenterPosition   | optional | {lat: [Lat], lng: [Lng]} object | The center position of the map. This coordinate will not be accurate if the map has been moved manually. However, calling the map's setMapCenterPosition function will cause the map to revert to this location |
-| ownPositionMarker   | optional | Marker                          | A special marker that has an ID of OWN_POSTION_MARKER_ID                                                                                                                                                        |  |
+| ownPositionMarker   | optional | Marker                          | A special marker that has an ID of OWN_POSTION_MARKER_ID                                                                                                                                                        |
 | zoom                | optional | number                          | Desired zoom value of the map                                                                                                                                                                                   |
 | doDebug             | optional | boolean                         | A flag for debug message logging                                                                                                                                                                               |
+| source              | optional | WebView["source"]               |  Loads static html or a uri (with optional headers) in the WebView.                                                                                                                                                           |
 
 ## Contributing
 
