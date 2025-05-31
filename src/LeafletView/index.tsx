@@ -52,6 +52,8 @@ export type LeafletViewProps = {
   webviewStyle?: WebViewProps;
   injectedJavaScript?: string;
   source?: WebViewProps['source'];
+  zoomControl?: boolean;
+  attributionControl?: boolean;
 };
 
 const LeafletView: React.FC<LeafletViewProps> = ({
@@ -71,6 +73,8 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   webviewStyle,
   injectedJavaScript,
   source,
+  zoomControl = true,
+  attributionControl = true,
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
@@ -117,6 +121,24 @@ const LeafletView: React.FC<LeafletViewProps> = ({
       };
     }
     startupMessage.zoom = zoom;
+
+    if (!zoomControl) {
+      const hideZoomControlsJS = `
+        document.querySelectorAll('.leaflet-bar a').forEach(element => {
+          element.style.display = 'none';
+        });
+      `;
+      webViewRef.current?.injectJavaScript(hideZoomControlsJS);
+    }
+
+    if (!attributionControl) {
+      const hideAttributionControlsJS = `
+        document.querySelectorAll('.leaflet-control-attribution').forEach(element => {
+          element.style.display = 'none';
+        });
+      `;
+      webViewRef.current?.injectJavaScript(hideAttributionControlsJS);
+    }
 
     sendMessage(startupMessage);
     setInitialized(true);
