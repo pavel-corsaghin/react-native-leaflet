@@ -152,6 +152,8 @@ const LeafletView: React.FC<LeafletViewProps> = ({
     ownPositionMarker,
     sendMessage,
     zoom,
+    attributionControl,
+    zoomControl,
   ]);
 
   const handleMessage = useCallback(
