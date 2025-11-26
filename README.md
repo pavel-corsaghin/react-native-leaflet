@@ -89,7 +89,7 @@ export default App;
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert } from 'react-native';
 import { Asset } from "expo-asset";
-import * as FileSystem from "expo-file-system";
+import { File } from 'expo-file-system';
 import { LatLng, LeafletView } from 'react-native-leaflet-view';
 
 const DEFAULT_LOCATION = {
@@ -106,7 +106,7 @@ const App: React.FC = () => {
         const path = require("./assets/leaflet.html");
         const asset = Asset.fromModule(path);
         await asset.downloadAsync();
-        const htmlContent = await FileSystem.readAsStringAsync(asset.localUri!);
+        const htmlContent = await new File(asset.localUri!).text();
 
         if (isMounted) {
           setWebViewContent(htmlContent);
