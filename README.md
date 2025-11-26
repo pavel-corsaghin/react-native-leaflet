@@ -89,7 +89,7 @@ export default App;
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert } from 'react-native';
 import { Asset } from "expo-asset";
-import { File } from 'expo-file-system/next';
+import { File } from 'expo-file-system';
 import { LatLng, LeafletView } from 'react-native-leaflet-view';
 
 const DEFAULT_LOCATION = {
