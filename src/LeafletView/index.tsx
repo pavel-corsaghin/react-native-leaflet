@@ -76,7 +76,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   source,
   zoomControl = true,
   attributionControl = true,
-  disableMarkerClustering = false,
+  disableMarkerClustering = true,
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
@@ -198,8 +198,8 @@ const LeafletView: React.FC<LeafletViewProps> = ({
     if (!initialized) {
       return;
     }
-    sendMessage({ mapMarkers });
-  }, [initialized, mapMarkers, sendMessage]);
+    sendMessage({ mapMarkers, useMarkerClustering: !disableMarkerClustering });
+  }, [initialized, mapMarkers, sendMessage, disableMarkerClustering]);
 
   //Handle mapShapes update
   useEffect(() => {
