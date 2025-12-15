@@ -182,8 +182,20 @@ const LeafletView: React.FC<LeafletViewProps> = ({
     if (!initialized) {
       return;
     }
-    sendMessage({ mapMarkers, useMarkerClustering });
-  }, [initialized, mapMarkers, sendMessage, useMarkerClustering]);
+    sendMessage({
+      mapMarkers,
+      useMarkerClustering,
+      zoomControl,
+      attributionControl,
+    });
+  }, [
+    initialized,
+    mapMarkers,
+    sendMessage,
+    useMarkerClustering,
+    zoomControl,
+    attributionControl,
+  ]);
 
   //Handle mapShapes update
   useEffect(() => {
