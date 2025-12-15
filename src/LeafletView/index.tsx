@@ -80,7 +80,6 @@ const LeafletView: React.FC<LeafletViewProps> = ({
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
-  const ownPositionMarkerRef = useRef<boolean>(false);
 
   const logMessage = useCallback(
     (message: string) => {
@@ -207,31 +206,13 @@ const LeafletView: React.FC<LeafletViewProps> = ({
 
   //Handle ownPositionMarker update
   useEffect(() => {
-    if (!initialized) {
+    if (!initialized || !ownPositionMarker) {
       return;
     }
-
-    if (ownPositionMarker) {
-      ownPositionMarkerRef.current = true;
-      sendMessage({
-        ownPositionMarker: { ...ownPositionMarker, id: OWN_POSTION_MARKER_ID },
-      });
-    } else if (ownPositionMarkerRef.current) {
-      ownPositionMarkerRef.current = false;
-      sendMessage({
-        ownPositionMarker: {
-          id: OWN_POSTION_MARKER_ID,
-          position: {
-            lat: 0,
-            lng: 0,
-          },
-          title: '',
-          size: [0, 0],
-          icon: '',
-        },
-      });
-    }
-  }, [initialized, ownPositionMarker, sendMessage, ownPositionMarkerRef]);
+    sendMessage({
+      ownPositionMarker: { ...ownPositionMarker, id: OWN_POSTION_MARKER_ID },
+    });
+  }, [initialized, ownPositionMarker, sendMessage]);
 
   //Handle mapCenterPosition update
   useEffect(() => {
