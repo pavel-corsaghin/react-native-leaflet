@@ -125,24 +125,8 @@ const LeafletView: React.FC<LeafletViewProps> = ({
     }
     startupMessage.zoom = zoom;
     startupMessage.useMarkerClustering = useMarkerClustering;
-
-    if (!zoomControl) {
-      const hideZoomControlsJS = `
-        document.querySelectorAll('.leaflet-bar a').forEach(element => {
-          element.style.display = 'none';
-        });
-      `;
-      webViewRef.current?.injectJavaScript(hideZoomControlsJS);
-    }
-
-    if (!attributionControl) {
-      const hideAttributionControlsJS = `
-        document.querySelectorAll('.leaflet-control-attribution').forEach(element => {
-          element.style.display = 'none';
-        });
-      `;
-      webViewRef.current?.injectJavaScript(hideAttributionControlsJS);
-    }
+    startupMessage.zoomControl = zoomControl;
+    startupMessage.attributionControl = attributionControl;
 
     sendMessage(startupMessage);
     setInitialized(true);

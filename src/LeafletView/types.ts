@@ -121,6 +121,8 @@ export interface MapMessage {
   mapCenterPosition?: LatLng;
   ownPositionMarker?: OwnPositionMarker;
   zoom?: number;
+  zoomControl?: boolean;
+  attributionControl?: boolean;
   useMarkerClustering?: boolean;
 }
 
