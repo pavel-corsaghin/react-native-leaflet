@@ -121,6 +121,7 @@ export interface MapMessage {
   mapCenterPosition?: LatLng;
   ownPositionMarker?: OwnPositionMarker;
   zoom?: number;
+  useMarkerClustering?: boolean;
 }
 
 export interface WebviewLeafletMessagePayload {

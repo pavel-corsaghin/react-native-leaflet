@@ -54,6 +54,7 @@ export type LeafletViewProps = {
   source?: WebViewProps['source'];
   zoomControl?: boolean;
   attributionControl?: boolean;
+  disableMarkerClustering?: boolean;
 };
 
 const LeafletView: React.FC<LeafletViewProps> = ({
@@ -75,6 +76,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   source,
   zoomControl = true,
   attributionControl = true,
+  disableMarkerClustering = false,
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
@@ -122,6 +124,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
       };
     }
     startupMessage.zoom = zoom;
+    startupMessage.useMarkerClustering = !disableMarkerClustering;
 
     if (!zoomControl) {
       const hideZoomControlsJS = `
@@ -155,6 +158,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
     zoom,
     attributionControl,
     zoomControl,
+    disableMarkerClustering,
   ]);
 
   const handleMessage = useCallback(
