@@ -54,7 +54,7 @@ export type LeafletViewProps = {
   source?: WebViewProps['source'];
   zoomControl?: boolean;
   attributionControl?: boolean;
-  disableMarkerClustering?: boolean;
+  useMarkerClustering?: boolean;
 };
 
 const LeafletView: React.FC<LeafletViewProps> = ({
@@ -76,7 +76,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   source,
   zoomControl = true,
   attributionControl = true,
-  disableMarkerClustering = true,
+  useMarkerClustering = true,
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
@@ -124,7 +124,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
       };
     }
     startupMessage.zoom = zoom;
-    startupMessage.useMarkerClustering = !disableMarkerClustering;
+    startupMessage.useMarkerClustering = useMarkerClustering;
 
     if (!zoomControl) {
       const hideZoomControlsJS = `
@@ -158,7 +158,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
     zoom,
     attributionControl,
     zoomControl,
-    disableMarkerClustering,
+    useMarkerClustering,
   ]);
 
   const handleMessage = useCallback(
@@ -198,8 +198,8 @@ const LeafletView: React.FC<LeafletViewProps> = ({
     if (!initialized) {
       return;
     }
-    sendMessage({ mapMarkers, useMarkerClustering: !disableMarkerClustering });
-  }, [initialized, mapMarkers, sendMessage, disableMarkerClustering]);
+    sendMessage({ mapMarkers, useMarkerClustering });
+  }, [initialized, mapMarkers, sendMessage, useMarkerClustering]);
 
   //Handle mapShapes update
   useEffect(() => {
@@ -252,14 +252,6 @@ const LeafletView: React.FC<LeafletViewProps> = ({
     }
     sendMessage({ zoom });
   }, [initialized, zoom, sendMessage]);
-
-  //Handle disableMarkerClustering update
-  useEffect(() => {
-    if (!initialized || !mapMarkers) {
-      return;
-    }
-    sendMessage({ mapMarkers, useMarkerClustering: !disableMarkerClustering });
-  }, [initialized, disableMarkerClustering, mapMarkers, sendMessage]);
 
   return (
     <WebView
