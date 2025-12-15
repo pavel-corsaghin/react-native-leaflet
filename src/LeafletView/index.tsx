@@ -253,13 +253,11 @@ const LeafletView: React.FC<LeafletViewProps> = ({
     sendMessage({ zoom });
   }, [initialized, zoom, sendMessage]);
 
-  //Handle disableMarkerClustering update via JS injection
+  //Handle disableMarkerClustering update
   useEffect(() => {
     if (!initialized || !mapMarkers) {
       return;
     }
-    
-    // Force re-render markers with updated clustering setting
     sendMessage({ mapMarkers, useMarkerClustering: !disableMarkerClustering });
   }, [initialized, disableMarkerClustering, mapMarkers, sendMessage]);
 
