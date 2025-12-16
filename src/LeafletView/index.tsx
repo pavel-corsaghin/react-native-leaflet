@@ -54,6 +54,7 @@ export type LeafletViewProps = {
   source?: WebViewProps['source'];
   zoomControl?: boolean;
   attributionControl?: boolean;
+  useMarkerClustering?: boolean;
 };
 
 const LeafletView: React.FC<LeafletViewProps> = ({
@@ -75,10 +76,10 @@ const LeafletView: React.FC<LeafletViewProps> = ({
   source,
   zoomControl = true,
   attributionControl = true,
+  useMarkerClustering = true,
 }) => {
   const webViewRef = useRef<WebView>(null);
   const [initialized, setInitialized] = useState(false);
-  const ownPositionMarkerRef = useRef<boolean>(false);
 
   const logMessage = useCallback(
     (message: string) => {
@@ -122,24 +123,9 @@ const LeafletView: React.FC<LeafletViewProps> = ({
       };
     }
     startupMessage.zoom = zoom;
-
-    if (!zoomControl) {
-      const hideZoomControlsJS = `
-        document.querySelectorAll('.leaflet-bar a').forEach(element => {
-          element.style.display = 'none';
-        });
-      `;
-      webViewRef.current?.injectJavaScript(hideZoomControlsJS);
-    }
-
-    if (!attributionControl) {
-      const hideAttributionControlsJS = `
-        document.querySelectorAll('.leaflet-control-attribution').forEach(element => {
-          element.style.display = 'none';
-        });
-      `;
-      webViewRef.current?.injectJavaScript(hideAttributionControlsJS);
-    }
+    startupMessage.useMarkerClustering = useMarkerClustering;
+    startupMessage.zoomControl = zoomControl;
+    startupMessage.attributionControl = attributionControl;
 
     sendMessage(startupMessage);
     setInitialized(true);
@@ -155,6 +141,7 @@ const LeafletView: React.FC<LeafletViewProps> = ({
     zoom,
     attributionControl,
     zoomControl,
+    useMarkerClustering,
   ]);
 
   const handleMessage = useCallback(
@@ -194,8 +181,20 @@ const LeafletView: React.FC<LeafletViewProps> = ({
     if (!initialized) {
       return;
     }
-    sendMessage({ mapMarkers });
-  }, [initialized, mapMarkers, sendMessage]);
+    sendMessage({
+      mapMarkers,
+      useMarkerClustering,
+      zoomControl,
+      attributionControl,
+    });
+  }, [
+    initialized,
+    mapMarkers,
+    sendMessage,
+    useMarkerClustering,
+    zoomControl,
+    attributionControl,
+  ]);
 
   //Handle mapShapes update
   useEffect(() => {
@@ -207,31 +206,13 @@ const LeafletView: React.FC<LeafletViewProps> = ({
 
   //Handle ownPositionMarker update
   useEffect(() => {
-    if (!initialized) {
+    if (!initialized || !ownPositionMarker) {
       return;
     }
-
-    if (ownPositionMarker) {
-      ownPositionMarkerRef.current = true;
-      sendMessage({
-        ownPositionMarker: { ...ownPositionMarker, id: OWN_POSTION_MARKER_ID },
-      });
-    } else if (ownPositionMarkerRef.current) {
-      ownPositionMarkerRef.current = false;
-      sendMessage({
-        ownPositionMarker: {
-          id: OWN_POSTION_MARKER_ID,
-          position: {
-            lat: 0,
-            lng: 0,
-          },
-          title: '',
-          size: [0, 0],
-          icon: '',
-        },
-      });
-    }
-  }, [initialized, ownPositionMarker, sendMessage, ownPositionMarkerRef]);
+    sendMessage({
+      ownPositionMarker: { ...ownPositionMarker, id: OWN_POSTION_MARKER_ID },
+    });
+  }, [initialized, ownPositionMarker, sendMessage]);
 
   //Handle mapCenterPosition update
   useEffect(() => {
