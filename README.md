@@ -161,6 +161,7 @@ export default App;
 | source              | optional | WebView["source"]               | Loads static html or a uri (with optional headers) in the WebView.                                                                         |
 | zoomControl         | optional | boolean                         | Controls the visibility of the zoom controls on the map.                                                                                   |
 | attributionControl  | optional | boolean                         | Controls the visibility of the attribution control on the map.                                                                             |
+| useMarkerClustering | optional | boolean                         | Enables or disables marker clustering functionality. Default is `true`.                                                                    |
 
 ## Contributing
 
