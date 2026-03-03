@@ -89,6 +89,7 @@ export interface MapEventMessage {
 
 export interface MapLayer {
   attribution?: string;
+  attributionPrefix?: string;
   baseLayer?: boolean;
   baseLayerIsChecked?: boolean;
   baseLayerName?: string;

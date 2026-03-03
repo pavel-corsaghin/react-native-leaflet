@@ -23,7 +23,7 @@ const LEAFLET_HTML_SOURCE = Platform.select({
   android: { uri: 'file:///android_asset/leaflet.html' },
 });
 
-const DEFAULT_MAP_LAYERS = [
+const DEFAULT_MAP_LAYERS: MapLayer[] = [
   {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
