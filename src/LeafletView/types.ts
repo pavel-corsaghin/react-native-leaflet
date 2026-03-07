@@ -79,6 +79,7 @@ export interface MapMarker {
   size?: Point;
   title?: string;
   iconStyle?: string;
+  titleStyle?: string;
 }
 
 export interface MapEventMessage {
@@ -154,4 +155,5 @@ export interface OwnPositionMarker {
   size: Point;
   title: string;
   iconStyle?: string;
+  titleStyle?: string;
 }
