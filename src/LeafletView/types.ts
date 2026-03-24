@@ -73,7 +73,7 @@ export interface MapMarker {
   animation?: MapMarkerAnimation;
   position: LatLng;
   divIcon?: L.DivIcon;
-  icon: any;
+  icon: string;
   iconAnchor?: Point;
   id?: string;
   size?: Point;
@@ -83,6 +83,9 @@ export interface MapMarker {
   tooltipStyle?: string;
   tooltipTipStyle?: string;
   closeButtonStyle?: string;
+  autoClose?: boolean;
+  closeOnClick?: boolean;
+  closeButton?: boolean;
 }
 
 export interface MapEventMessage {
@@ -152,14 +155,19 @@ export interface WebviewLeafletMessage {
 
 export interface OwnPositionMarker {
   animation?: MapMarkerAnimation;
-  id?: string;
-  icon: string;
   position: LatLng;
-  size: Point;
-  title: string;
+  divIcon?: L.DivIcon;
+  icon: string;
+  iconAnchor?: Point;
+  id?: string;
+  size?: Point;
+  title?: string;
   iconStyle?: string;
   titleStyle?: string;
   tooltipStyle?: string;
   tooltipTipStyle?: string;
   closeButtonStyle?: string;
+  autoClose?: boolean;
+  closeOnClick?: boolean;
+  closeButton?: boolean;
 }
