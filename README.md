@@ -54,7 +54,7 @@ These packages are required for proper file handling and WebView functionality i
 - [expo-asset docs](https://docs.expo.dev/versions/latest/sdk/asset/)
 - [expo-file-system docs](https://docs.expo.dev/versions/latest/sdk/filesystem/)
 
-You need to do this in the root of your project: Copy the required HTML file from the package with this one-liner
+You need to do this in the root of your project: Copy the required HTML file from the package with this one-liner.
 
 ```sh
 cp node_modules/react-native-leaflet-view/android/src/main/assets/leaflet.html assets
